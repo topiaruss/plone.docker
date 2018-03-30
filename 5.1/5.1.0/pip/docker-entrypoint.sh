@@ -3,23 +3,14 @@ set -e
 
 COMMANDS="debug help logtail show stop adduser fg kill quit run wait console foreground logreopen reload shell status"
 START="start restart zeoserver"
-CMD="bin/instance"
+CMD="bin/zopectl"
 
 mkdir -p /data/filestorage /data/blobstorage
 chown -R plone:plone /data /plone
+gosu plone python /docker-initialize.py
 
 if [ ! -z "$ADDONS" ]; then
     pip install -c constraints.txt $ADDONS
-fi
-
-gosu plone python /docker-initialize.py
-exec gosu plone bin/zopectl fg
-
-if [ -e "custom.cfg" ]; then
-  if [ ! -e "bin/develop" ]; then
-    gosu plone bin/buildout -c custom.cfg
-    gosu plone python /docker-initialize.py
-  fi
 fi
 
 if [[ "$1" == "zeo"* ]]; then
@@ -58,7 +49,7 @@ if [[ $START == *"$1"* ]]; then
   fi
 else
   if [[ $COMMANDS == *"$1"* ]]; then
-    exec gosu plone bin/instance "$@"
+    exec gosu plone $CMD "$@"
   fi
   exec "$@"
 fi

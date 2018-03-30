@@ -51,4 +51,4 @@ EXPOSE 8080
 WORKDIR /plone/instance
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["start"]
+CMD ["fg"]
