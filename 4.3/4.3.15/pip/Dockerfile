@@ -16,8 +16,8 @@ RUN useradd --system -m -d /plone -U -u 500 plone \
 
 COPY requirements.txt /plone/instance/
 
-RUN buildDeps="wget gcc libc6-dev libpcre3-dev libxml2-dev libxslt1-dev libbz2-dev bzip2" \
- && runDeps="gosu poppler-utils wv" \
+RUN buildDeps="wget gcc libc6-dev libpcre3-dev libxml2-dev libxslt1-dev zlib1g-dev" \
+ && runDeps="gosu libxml2 libxslt1.1 poppler-utils wv" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
  && pip install zc.buildout \
