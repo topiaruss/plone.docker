@@ -22,7 +22,7 @@ RUN buildDeps="wget gcc libc6-dev libpcre3-dev" \
  && runDeps="gosu poppler-utils wv rsync lynx" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
- && wget -O Plone.tgz https://launchpad.net/plone/$PLONE_MAJOR/$PLONE_VERSION/+download/Plone-$PLONE_VERSION-UnifiedInstaller.tgz \
+ && wget -O Plone.tgz -nv https://launchpad.net/plone/$PLONE_MAJOR/$PLONE_VERSION/+download/Plone-$PLONE_VERSION-UnifiedInstaller.tgz \
  && echo "$PLONE_MD5 Plone.tgz" | md5sum -c - \
  && tar -xzf Plone.tgz \
  && cp -rv ./Plone-$PLONE_VERSION-UnifiedInstaller/base_skeleton/* /plone/instance/ \
