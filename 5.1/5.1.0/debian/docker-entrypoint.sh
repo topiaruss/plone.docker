@@ -7,6 +7,18 @@ CMD="bin/instance"
 
 gosu plone python /docker-initialize.py
 
+echo '######## PATCH THE UPGRADE ##################'
+echo 'plone.app.upgrade-2.0.11-py2-none-any.ovo/plone/app/upgrade/v50/final.py'
+
+sed -i.bak '/def_smaxage:/i \
+    if not hasattr(registry.records[maxage].field, "recordName"):\
+        return\
+' /plone/buildout-cache/eggs/plone.app.upgrade-2.0.11-py2-none-any.ovo/plone/app/upgrade/v50/final.py
+
+grep -B5 -A2 'def_smaxage:' /plone/buildout-cache/eggs/plone.app.upgrade-2.0.11-py2-none-any.ovo/plone/app/upgrade/v50/final.py
+
+echo '######## PATCHED THE UPGRADE ##################'
+
 if [ -e "custom.cfg" ]; then
   if [ ! -e "bin/develop" ]; then
     gosu plone bin/buildout -c custom.cfg
