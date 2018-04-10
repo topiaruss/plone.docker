@@ -48,7 +48,8 @@ if [[ $START == *"$1"* ]]; then
   gosu plone $CMD start
   gosu plone $CMD logtail &
   child=$!
-
+  
+  echo `$CMD status`
   pid=`$CMD status | sed 's/[^0-9]*//g'`
   if [ ! -z "$pid" ]; then
     echo "Application running on pid=$pid"
