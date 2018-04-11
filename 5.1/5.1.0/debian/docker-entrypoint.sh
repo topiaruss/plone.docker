@@ -61,6 +61,8 @@ if [[ $START == *"$1"* ]]; then
     done
   else
     echo "Application didn't start normally. Shutting down!"
+    echo "but pausing 300s first..."
+    sleep 300
     _stop
   fi
 else
