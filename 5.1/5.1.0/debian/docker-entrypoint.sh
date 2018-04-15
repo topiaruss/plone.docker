@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 COMMANDS="debug help logtail show stop adduser fg kill quit run wait console foreground logreopen reload shell status"
 START="start restart zeoserver"
@@ -48,7 +48,10 @@ if [[ $START == *"$1"* ]]; then
   gosu plone $CMD start
   gosu plone $CMD logtail &
   child=$!
-
+  
+  echo 'status >'
+  echo `$CMD status`
+  echo 'status >'
   pid=`$CMD status | sed 's/[^0-9]*//g'`
   if [ ! -z "$pid" ]; then
     echo "Application running on pid=$pid"
@@ -58,6 +61,8 @@ if [[ $START == *"$1"* ]]; then
     done
   else
     echo "Application didn't start normally. Shutting down!"
+    echo "but pausing 300s first..."
+    sleep 300
     _stop
   fi
 else
