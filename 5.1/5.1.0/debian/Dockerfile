@@ -33,7 +33,7 @@ RUN buildDeps="wget gcc libc6-dev libpcre3-dev" \
  && ln -s /usr/local/bin/buildout /plone/instance/bin/buildout \
  && ln -s /usr/local/bin/python /plone/Python-2.7 \
  && ln -s /data/filestorage/ /plone/instance/var/filestorage \
- && ln -s /data/blobstorage /plone/instance//var/blobstorage \
+ && ln -s /data/blobstorage /plone/instance/var/blobstorage \
  && chown -R plone:plone /plone /data \
  && rm -rf /Plone* \
  && apt-get purge -y --auto-remove $buildDeps \
