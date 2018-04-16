@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 COMMANDS="debug help logtail show stop adduser fg kill quit run wait console foreground logreopen reload shell status"
 START="start restart zeoserver"
@@ -48,11 +48,10 @@ if [[ $START == *"$1"* ]]; then
   gosu plone $CMD start
   gosu plone $CMD logtail &
   child=$!
-  
-  echo 'status >'
-  echo `$CMD status`
-  echo 'status >'
-  pid=`$CMD status | sed 's/[^0-9]*//g'`
+
+  # Second col of Z procs, with a conf (excludes grep proc), without -S.
+  pid=`ps -aux | grep Zope2 | grep "\-C" | grep -v "\-S" | awk '{print $2}'`
+  echo "pid is $pid"
   if [ ! -z "$pid" ]; then
     echo "Application running on pid=$pid"
     sleep "$HEALTH_CHECK_TIMEOUT"
@@ -61,8 +60,6 @@ if [[ $START == *"$1"* ]]; then
     done
   else
     echo "Application didn't start normally. Shutting down!"
-    echo "but pausing 300s first..."
-    sleep 300
     _stop
   fi
 else
